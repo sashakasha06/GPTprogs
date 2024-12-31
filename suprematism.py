@@ -1,9 +1,8 @@
 import json
 import sys
 from PyQt6.QtWidgets import QApplication, QWidget
-from PyQt6.QtGui import QPainter, QPen, QBrush, QColor, QCursor, QPolygonF
+from PyQt6.QtGui import QPainter, QBrush, QColor, QPolygonF
 from PyQt6.QtCore import Qt, QPointF
-from PyQt6.QtCore import QRectF
 from openai import OpenAI
 
 client = OpenAI(
@@ -11,7 +10,7 @@ client = OpenAI(
     base_url="https://api.proxyapi.ru/openai/v1",
 )
 messages = []
-fl = 0
+
 
 class Suprematism(QWidget):
     def __init__(self):
@@ -60,11 +59,7 @@ class Suprematism(QWidget):
     def mousePressEvent(self, event):
         center = event.pos()
         center = str(center.x()) + ', ' + str(center.y())
-        if event.button() == Qt.MouseButton.LeftButton:
-            self.object = 'круг с центром в точке (' + center + ') и случайным радиусом в диапазоне от 20 до 100 пикселей'
-            self.update()
-
-        elif event.button() == Qt.MouseButton.RightButton:
+        if event.button() == Qt.MouseButton.RightButton:
             self.object = 'составь список точек - координат вершин солнышка с центром в точке (' + center + ') и случайной длиной стороны в диапазоне от 20 до 100 пикселей, в ответе дай ТОЛЬКО список JSON для фигуры Polygon, НИКАКОГО текста. Пример формата: [[100, 200], [200, 200], [200, 100], [100, 100]]'
             self.coords = self.gptprompt(self.object)
             print(self.coords)
